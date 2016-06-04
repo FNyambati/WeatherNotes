@@ -19,8 +19,8 @@ angular.module('weatherApp').service('weatherService', function($http, $q) {
     rawToday.setDate(rawToday.getDate() - 2); //The current Day wont return any day so I went back 2 days
     raw3Weeks.setDate(raw3Weeks.getDate() - 21); // 21 Days Ago
 
-    var today = rawToday.toISOString();   /// Convert to the API friendly, ISO 8601 fornat
-    var threeWeeks = raw3Weeks.toISOString();
+    var today = rawToday.toISOString();   /// Formats date to the API friendly, ISO 8601 fornat
+    var threeWeeks = raw3Weeks.toISOString(); /// Formats date to the API friendly, ISO 8601 fornat
 
 
 
