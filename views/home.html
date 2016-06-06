@@ -1,6 +1,26 @@
+<div class="search">
 <h1>{{test}}</h1>
 <input type="text" ng-model="zip"placeholder="Enter ZIP code">
-
 <button type="submit"ng-click="getWeather(zip)">Find Weather</button>
-
-{{weatherData}}
+</div>
+<div class="container" ng-repeat="data in weatherData">
+  <div class="forcast"ng-repeat="weather in data">
+    <!-- <h1>{{weather.timestamp | date: 'EEE, MMM d'}}</h1> -->
+    <hr>
+    <h1>{{getToday.timestamp | date: 'EEE, MMM d'}}</h1>
+      {{getToday.tempAvg}}
+      <!-- <h3>Temperature</h3>
+          Low: {{weather.tempMin}}°F<br>
+          Average: {{weather.tempAvg}}°F<br>
+          High: {{weather.tempMax}}°F
+      <h3>Humidity</h3>
+          Low: {{weather.spcHumMin}} <br>
+          Average: {{weather.spcHumAvg}}<br>
+          High: {{weather.spcHumMax}}<br>
+      <h3>Wind Speed</h3>
+          Low: {{weather.windSpdMin}}<br>
+          Average: {{weather.windSpdAvg}}<br>
+          High: {{weather.windSpdMax}} -->
+</div>
+</div>
+<!-- <canvas id="myChart" width="400" height="400"></canvas> -->

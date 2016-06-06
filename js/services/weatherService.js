@@ -13,9 +13,9 @@ angular.module('weatherApp').service('weatherService', function($http, $q) {
     fields = 'fields=postal_code,country,timestamp,tempMax,tempAvg,tempMin,percip,windSpdMax,windSpdMin,windSpdAvg,spcHumMax,spcHumAvg,spcHumMin', //options I decided to display for the weather data
     between = 'timestamp_between=', //gets 2 dates and displays the rsults
 
+    //DISCLAIMER I had to enable cross origin resource sharing (CORS) for the API to work. I didn't want to create a server with node because it was a front end project. So I installed a chrome extension for CORS, the link is https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en
 
-
-    // DISCLAIMER!!!!!: The API only returned 5 days when I made the two dates 3 weeks apart, so I had to make FOUR API calls to get the past 21 days, so I just decided to go back a MONTH so I made 6 API Calls to get the past 30 days leading up to yesterday. Only because no data is returned for the current day until its over so I decided to just make it start from the day before you make the API call. The struggle with this API is real.
+    // DISCLAIMER #2!!!!!: The API only returned 5 days when I made the two dates 3 weeks apart, so I had to make FOUR API calls to get the past 21 days, so I just decided to go back a MONTH so I made 6 API Calls to get the past 30 days leading up to yesterday. Only because no data is returned for the current day until its over so I decided to just make it start from the day before you make the API call. The struggle with this API is real.
 
     //P.S The max requests per minute is 10 for the free subscription of this API. So if it doesnt work again immediately, just know that its not broken, its only the parameters set by my developer account's permissions that doesn't allow more than 2 requests per minute.
 
@@ -50,10 +50,7 @@ angular.module('weatherApp').service('weatherService', function($http, $q) {
   daysAgo10.setDate(daysAgo10.getDate() - 10); // 10 Days Ago
   daysAgo6.setDate(daysAgo6.getDate() - 6); // 6 Days Ago
   daysAgo5.setDate(daysAgo5.getDate() - 5); //5 Days Ago
-  daysAgo1.setDate(daysAgo1.getDate() - 1); //The current Day wont return any day so I started with yesterday
-
-
-
+  daysAgo1.setDate(daysAgo1.getDate()); //The current Day wont return any day so I started with yesterday
 
 
 
@@ -73,14 +70,11 @@ angular.module('weatherApp').service('weatherService', function($http, $q) {
 
 
   //Below is the universal base URL that every request recieves using the variables in the beginning of the Service.
-
-
   var baseUrl = apiUrl + '/' + apiKey + '/' + event + '?' + format + '&' + zipCode;
 
 
+
   //Below is the second half of the URL. The dates between are custom to each api call going from 30 to 26 days, 25 to 21, etc. Again, using the variables provided at the beginning of the file.
-
-
   var thirtyToTwentySix = '&' + country + '&' + between + monthAgo + "," + twentySixDaysAgo + '&' + fields;
   var twentyFiveToTwentyOne = '&' + country + '&' + between + twentyFiveDaysAgo + "," + twentyOneDaysAgo + '&' + fields;
   var twentyToSixteen = '&' + country + '&' + between + twentyDaysAgo + "," + sixDaysAgo + '&' + fields;
@@ -91,23 +85,39 @@ angular.module('weatherApp').service('weatherService', function($http, $q) {
 
 
   //Now that I'm done with all the variables I can finally make a function that puts it all together!
-
-
   this.getWeather = function(zip) { //  <== pass in zip code that user inputs as parameter
 
-    //Made a custom Promise that takes in all 6 requests without making a messy nested request
-    $q.all([
-      $http.get(baseUrl + zip + thirtyToTwentySix), //puts together the baseUrl, ZIP code that the user searches, and the date interval variable for every request
-      $http.get(baseUrl + zip + twentyFiveToTwentyOne),
-      $http.get(baseUrl + zip + twentyToSixteen),
-      $http.get(baseUrl + zip + fifteenToEleven),
-      $http.get(baseUrl + zip + tenToSix),
-      $http.get(baseUrl + zip + fiveToNow) //if you want to be able to search more than once per minute, just comment a few of these lines out. Sorry for the inconvinence
-    ]).then(function(response) {
-      console.log(response);
+    var url1 = $http.get(baseUrl + zip + thirtyToTwentySix),
+      url2 = $http.get(baseUrl + zip + twentyFiveToTwentyOne),
+      url3 = $http.get(baseUrl + zip + twentyToSixteen),
+      url4 = $http.get(baseUrl + zip + fifteenToEleven),
+      url5 = $http.get(baseUrl + zip + tenToSix),
+      url6 = $http.get(baseUrl + zip + fiveToNow);
+      // Custom URL's for every API call assigned to varia
+
+
+    return $q.all([url6, url5]).then(function(result) {
+      var newData = [];
+      for (var i = 0; i < result.length; i++) {
+        newData.push(result[i].data);
+        console.log(newData);
+      }
+      return newData;
+
     });
 
-    return $q.all();
   };
 
 });
+
+
+
+
+
+
+
+
+// $http.get(baseUrl + zip + twentyToSixteen),
+// $http.get(baseUrl + zip + fifteenToEleven),
+// $http.get(baseUrl + zip + tenToSix),
+// $http.get(baseUrl + zip + fiveToNow) //if you want to be able to search more than once per minute, just comment a few of these lines out. Sorry for the inconvinence
