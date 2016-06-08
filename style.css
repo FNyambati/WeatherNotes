@@ -1,27 +1,218 @@
 body {
-  background-color: #37474F;
-  color: #CFD8DC;
+  background-color: #ecf0f1;
+  color: ##34495e;
   font-family: 'Roboto', sans-serif;
+  font-weight: 100;
   height: 100%;
   width: 100%;
+  margin: 0 auto;
 }
-/*.search{
+.search {
   text-align: center;
 }
-.forcast {
-  border: 1px solid white;
-  width: 40%;
-  font-weight: 100;
-  margin-right: 20px
+.search input {
+  width: 20%;
+  margin-top: 4%
 }
-.forcast h1 {
+.search h1 {
+  font-weight: 100;
+  /*font-weight: 100;*/
+  padding: 3%;
+  padding-bottom: 1.5%;
+  font-size: 5em;
+}
+.nav-tabs {
+  width: 65%;
+}
+.tabLink {
+  color: #34495e;
+  font-size: 1.1em;
+}
+.forecast-container {
+  border: 1px solid #34495e;
+  font-weight: 100;
+  margin-right: 20px;
+  height: 500px;
+  width: 600px;
+}
+.forecast h1 {
   font-size: 1.5em;
 }
+
+/*////////////////STYLING FOR TODAY'S FORECAST ///////////////////////*/
+
+.today {
+  height: 50%;
+}
+.todayDate {
+  text-align: right;
+  margin-right: 6%;
+}
+.todayTemp {
+  text-align: center;
+  margin-right: 100px;
+  /*margin-bottom: 20px;*/
+  width: 40%;
+  float: right;
+}
+.todayTemp h1 {
+  font-size: 3.6em;
+  margin-right: 30%;
+}
+.todayTemp h3 {
+  font-size: 1.6em;
+}
+.todayTemp h4 {
+  margin-bottom: 0px
+}
+.secondary {
+  width: 100%;
+  height: 200px;
+  padding-top: 40px
+}
+.todayWind {
+  float: right;
+  width: 50%;
+  text-align: right;
+  padding-right: 40px;
+  font-size: 1.4em;
+}
+.todayHum {
+  width: 50%;
+  float: left;
+  padding-left: 40px;
+  font-size: 1.4em;
+}
 .container {
-  width: 70%;
-  height: 60%;
-  margin: 0 auto;
+  width: 50%;
+}
+.container h1 {
+  font-weight: 100;
+}
+.icon {
+  position: relative;
+  display: inline-block;
+  width: 4em;
+  /*1em*/
+  height: 8em;
+  font-size: 1.8em;
+  /* control icon size here */
+}
+
+/*////////////////SUN ICON STYLING ///////////////////////*/
+
+.sun {
+  position: absolute;
+  top: 25%;
+  left: 100%;
+  width: 2.5em;
+  height: 2.5em;
+  margin: -1.25em;
+  background: #f39c12;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0.375em #f39c12;
+  animation: spin 12s infinite linear;
+}
+.rays {
+  position: absolute;
+  top: -2em;
+  left: 50%;
+  display: block;
+  width: 0.375em;
+  height: 1.125em;
+  margin-left: -0.1875em;
+  background: #f39c12;
+  border-radius: 0.25em;
+  box-shadow: 0 5.375em #f39c12;
+}
+.rays:before, .rays:after {
+  content: '';
+  position: absolute;
+  top: 0em;
+  left: 0em;
+  display: block;
+  width: 0.375em;
+  height: 1.125em;
+  transform: rotate(60deg);
+  transform-origin: 50% 3.25em;
+  background: #f39c12;
+  border-radius: 0.25em;
+  box-shadow: 0 5.375em #f39c12;
+}
+.rays:before {
+  transform: rotate(120deg);
+}
+
+/*////////////////SPINNING ANIMATION///////////////////////*/
+
+@keyframes spin {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/*////////////////STYLING FOR FIVE DAY FORECAST ///////////////////////*/
+
+.fiveDay {
+  height: 100px;
+  border-bottom: 1px solid #34495e;
   display: flex;
-  justify-content: center;
-  align-items: center;
-}*/
+}
+.fiveDayDate {
+  width: 15%;
+  text-align: center;
+  padding-right: 0%;
+  border-right: 1px dotted #34495e;
+  margin-right: 2.5%;
+}
+.fiveDayDate h2, h3, h4 {
+  margin: 0;
+}
+.fiveDayDate h2 {
+  padding-bottom: 10%;
+}
+.fiveDayDate h3 {
+  font-size: 1.7em;
+}
+.fiveDayDate h4 {
+  font-size: 1.2em;
+  font-weight: 100;
+  margin-top: 5%
+}
+.fiveDayDate hr {
+  margin: 0;
+  padding-top: 8%;
+  margin-left: 28%;
+  width: 45%;
+  border-color: #34495e
+}
+.fiveDayTemp {
+  border-right: 1px dotted #34495e;
+  margin-right: 2%;
+  padding-right: 6%;
+  width: 20%;
+}
+.fiveDayTemp h1 {
+  margin: 0;
+      font-size: 1.9em;
+      padding: 0 0 6px 4px;
+}
+.fiveDayTemp h4 {
+  padding-left: 10%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  font-weight: 100;
+  font-size: 1.1em;
+}
+.fiveDayFeels {
+  padding-top: 3%;
+  padding-left: 10%;
+}
+.fiveDayFeels h3 {
+  font-weight: 100;
+  font-size: 1.4em
+}
+.myGrid {
+  width: 100%;
+  height: 250px;
+}

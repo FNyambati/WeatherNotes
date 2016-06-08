@@ -1,26 +1,101 @@
+<!-- PRETTY STRAIGHT FORWARD HERE, Just using angular expressions to get inside the data objects Incorporated Bootstrap and UI Grid -->
+
+<!-- SearchBar and Button -->
 <div class="search">
-<h1>{{test}}</h1>
-<input type="text" ng-model="zip"placeholder="Enter ZIP code">
-<button type="submit"ng-click="getWeather(zip)">Find Weather</button>
+  <h1>{{test}}</h1>
+  <h3>Find the weather fast!</h3>
+  <input type="text" ng-model="zip" placeholder="Enter 5-digit ZIP code" maxlength="5">
+  <button type="button" class="btn btn-primary-outline" ng-click="getWeather(zip)">Find Weather</button>
 </div>
-<div class="container" ng-repeat="data in weatherData">
-  <div class="forcast"ng-repeat="weather in data">
-    <!-- <h1>{{weather.timestamp | date: 'EEE, MMM d'}}</h1> -->
-    <hr>
-    <h1>{{getToday.timestamp | date: 'EEE, MMM d'}}</h1>
-      {{getToday.tempAvg}}
-      <!-- <h3>Temperature</h3>
-          Low: {{weather.tempMin}}°F<br>
-          Average: {{weather.tempAvg}}°F<br>
-          High: {{weather.tempMax}}°F
-      <h3>Humidity</h3>
-          Low: {{weather.spcHumMin}} <br>
-          Average: {{weather.spcHumAvg}}<br>
-          High: {{weather.spcHumMax}}<br>
-      <h3>Wind Speed</h3>
-          Low: {{weather.windSpdMin}}<br>
-          Average: {{weather.windSpdAvg}}<br>
-          High: {{weather.windSpdMax}} -->
+
+
+<!-- Main Container  Hidden Until getWeather() finishes-->
+
+<div class="container" ng-show="showMe">
+
+  <h1>Forecast for {{getToday.postal_code}}</h1>
+
+      <!-- Tabs for bootstrap -->
+  <ul class="nav nav-tabs views">
+    <!-- TABS FOR FORECAST  -->
+    <li class="active"><a class="tabLink" data-toggle="tab" href="#today">Today</a></li>
+    <li><a data-toggle="tab" href="#fiveDay" class="tabLink">Five Day</a></li>
+    <li><a data-toggle="tab" href="#3week" class="tabLink">Three Week Trends</a></li>
+  </ul>
+
+
+
+  <!-- Container for all tabs -->
+  <div class="tab-content forecast-container">
+
+
+    <!-- Today's Forecast Tab -->
+    <div id="today" class="tab-pane fade in active">
+      <div class="today">
+        <div class="todayDate">
+          <h1>{{getToday.timestamp | date: 'fullDate'}}</h1>
+        </div>
+        <div class="icon sunny">
+          <div class="sun">
+            <div class="rays"></div>
+          </div>
+        </div>
+        <div class="todayTemp">
+          <h1>{{getToday.tempAvg}} °F</h1>
+          <h4>Hi: {{getToday.tempMax}}°F</h4>
+          <br>
+          <h4>Lo: {{getToday.tempMin}}°F</h4>
+          <br>
+          <h3>Chance of Rain: {{getToday.precip}}%</h3>
+        </div>
+        <div class="secondary">
+          <div class="todayHum">
+            <h3>Humidity</h3> Low: {{getToday.spcHumMin}}%
+            <br> Average: {{getToday.spcHumAvg}}%
+            <br> High: {{getToday.spcHumMax}}%
+          </div>
+          <div class="todayWind">
+            <h3>Wind Speed</h3> Low: {{getToday.windSpdMin}}mph
+            <br> Average: {{getToday.windSpdAvg}}mph
+            <br> High: {{getToday.windSpdMax}}mph
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+    <!-- 5 Day Forcast Tab -->
+    <div id="fiveDay" class="tab-pane fade">
+      <div class="fiveDay" ng-repeat="five in getFiveDay">
+        <div class="fiveDayDate">
+          <h4>{{five.timestamp | date: 'EEE'}}</h4>
+          <h2>{{five.timestamp | date: 'MMM'}}</h2>
+          <hr>
+          <h3>{{five.timestamp | date: 'd'}}</h3>
+        </div>
+        <div class="fiveDayTemp">
+          <h4>Hi: {{five.tempMax}}°F</h4>
+          <h1>{{five.tempMax}}°F</h1>
+          <h4>Lo: {{five.tempMin}}°F</h4>
+        </div>
+        <div class="fiveDayFeels">
+          <h3>Feels Like: {{five.feelsLikeAvg}}°F</h3>
+          <h3>{{five.precip}}% Chance of Rain</h3>
+          <h3> Winds: {{five.windSpdAvg}}mph</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 Week Trends Tab -->
+
+    <div id="3week" class="tab-pane fade">
+      <div ui-grid="gridOptions" class="myGrid">
+      </div>
+      <h2>Above are weather trends we have tracked for the last 3 weeks. Sort them as you please!</h2>
+    </div>
+  </div>
+
 </div>
-</div>
-<!-- <canvas id="myChart" width="400" height="400"></canvas> -->

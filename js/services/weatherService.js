@@ -5,12 +5,13 @@ angular.module('weatherApp').service('weatherService', function($http, $q) {
 
 
   var apiUrl = 'https://api.weathersource.com/v1', // base URL and version # for the API
-    apiKey = '744043ab64a08fafb204', //API Key shhhhh
+    apiKey = 'db99b1e641c774184a01', //API Key shhhhh
     event = 'history_by_postal_code.json', //getting data via ZIP code and returning via JSON
     format = 'period=day', //format better than using hour, which was the other option
     zipCode = 'postal_code_eq=', //takes in the zip the user passes in
     country = 'country_eq=US', //default is US and I can only use North America, I believe
-    fields = 'fields=postal_code,country,timestamp,tempMax,tempAvg,tempMin,percip,windSpdMax,windSpdMin,windSpdAvg,spcHumMax,spcHumAvg,spcHumMin', //options I decided to display for the weather data
+    fields ='fields=postal_code,country,timestamp,tempMax,tempAvg,tempMin,precip,snowfall,windSpdMax,windSpdAvg,windSpdMin,cldCvrMax,cldCvrAvg,cldCvrMin,dewPtMax,dewPtAvg,dewPtMin,feelsLikeMax,feelsLikeAvg,feelsLikeMin,relHumMax,relHumAvg,relHumMin,sfcPresMax,sfcPresAvg,sfcPresMin,spcHumMax,spcHumAvg,spcHumMin,wetBulbMax,wetBulbAvg,wetBulbMin',
+    // fields = 'fields=postal_code,country,timestamp,tempMax,tempAvg,tempMin,percip,windSpdMax,windSpdMin,windSpdAvg,spcHumMax,spcHumAvg,spcHumMin', //options I decided to display for the weather data
     between = 'timestamp_between=', //gets 2 dates and displays the rsults
 
     //DISCLAIMER I had to enable cross origin resource sharing (CORS) for the API to work. I didn't want to create a server with node because it was a front end project. So I installed a chrome extension for CORS, the link is https://chrome.google.com/webstore/detail/allow-control-allow-origi/nlfbmbojpeacfghkpbjhddihlkkiljbi?hl=en
@@ -50,7 +51,7 @@ angular.module('weatherApp').service('weatherService', function($http, $q) {
   daysAgo10.setDate(daysAgo10.getDate() - 10); // 10 Days Ago
   daysAgo6.setDate(daysAgo6.getDate() - 6); // 6 Days Ago
   daysAgo5.setDate(daysAgo5.getDate() - 5); //5 Days Ago
-  daysAgo1.setDate(daysAgo1.getDate()); //The current Day wont return any day so I started with yesterday
+  daysAgo1.setDate(daysAgo1.getDate() - 1); //The current Day wont return any day so I started with yesterday
 
 
 
@@ -93,31 +94,20 @@ angular.module('weatherApp').service('weatherService', function($http, $q) {
       url4 = $http.get(baseUrl + zip + fifteenToEleven),
       url5 = $http.get(baseUrl + zip + tenToSix),
       url6 = $http.get(baseUrl + zip + fiveToNow);
-      // Custom URL's for every API call assigned to varia
+      // Custom URL's for every API call assigned to  a variablle
 
 
-    return $q.all([url6, url5]).then(function(result) {
+    return $q.all([url6, url5, url4, url3, url2]) //5 API calls in one function :D
+    .then(function(result) {
       var newData = [];
       for (var i = 0; i < result.length; i++) {
         newData.push(result[i].data);
         console.log(newData);
       }
-      return newData;
+      return newData; //Transforms Array of Objects into Array of arrays so i can get it on $scope easier
 
     });
 
   };
 
 });
-
-
-
-
-
-
-
-
-// $http.get(baseUrl + zip + twentyToSixteen),
-// $http.get(baseUrl + zip + fifteenToEleven),
-// $http.get(baseUrl + zip + tenToSix),
-// $http.get(baseUrl + zip + fiveToNow) //if you want to be able to search more than once per minute, just comment a few of these lines out. Sorry for the inconvinence
